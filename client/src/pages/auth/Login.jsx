@@ -8,6 +8,7 @@ import { users } from '../../utils/data';
 import { useGlobalContext } from '../../hooks/useGlobalContext.hook';
 import Input from '../../components/shared/Input';
 
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

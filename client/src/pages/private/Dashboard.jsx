@@ -8,6 +8,7 @@ import ConverterView from '../../components/dashboard/views/ConverterView';
 const Dashboard = () => {
   const { dashboardView } = useGlobalContext();
 
+  
   return (
     <>
       {dashboardView === 'home' && <HomeView />}
