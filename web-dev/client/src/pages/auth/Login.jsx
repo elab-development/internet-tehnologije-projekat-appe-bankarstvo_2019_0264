@@ -4,58 +4,23 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Loader } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-import { users } from '../../utils/data';
-import { useGlobalContext } from '../../hooks/useGlobalContext.hook';
+import { useAuthStore } from '../../store/authStore';
 import Input from '../../components/shared/Input';
-
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
-  const { setLoggedInUser } = useGlobalContext();
+  const { login, isLoading, error } = useAuthStore();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null);
-    setIsLoading(true);
 
-    if (email.trim() === '') {
-      setError('Email is required!');
-      setIsLoading(false);
-      return;
+    try {
+      await login(email, password);
+    } catch (error) {
+      console.error(error);
     }
-
-    if (password.trim() === '') {
-      setError('Password is required!');
-      setIsLoading(false);
-      return;
-    }
-
-    const userWithEmail = users.filter((user) => user.email === email)[0];
-
-    if (!userWithEmail) {
-      setError('User not exist!');
-      setIsLoading(false);
-      return;
-    }
-
-    if (userWithEmail.password !== password) {
-      setError('Wrong credentials!');
-      setIsLoading(false);
-      return;
-    }
-
-    setLoggedInUser(userWithEmail);
-    toast.success('Logged in successfully!');
-
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
   };
 
   return (
@@ -89,7 +54,7 @@ const Login = () => {
 
           <div className='flex items-center mb-6'>
             <Link
-              to='/login'
+              to='/forgot-password'
               className='text-sm text-violet-400 hover:underline'
             >
               Forgot password?
@@ -117,7 +82,7 @@ const Login = () => {
       <div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
         <p className='text-sm text-gray-400'>
           Don't have an account?{' '}
-          <Link to='/login' className='text-violet-400 hover:underline'>
+          <Link to='/signup' className='text-violet-400 hover:underline'>
             Sign up
           </Link>
         </p>

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 const Landing = () => {
-  
   return (
     <div className='flex justify-center items-center h-screen flex-col'>
       <Link to='/login'>
